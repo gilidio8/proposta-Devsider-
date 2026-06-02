@@ -1,0 +1,1221 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Propostas Estratégicas | Devsider</title>
+  <style>
+    :root {
+      --bg: #07111f;
+      --bg-soft: #0d1b2e;
+      --card: rgba(255, 255, 255, 0.075);
+      --card-strong: rgba(255, 255, 255, 0.115);
+      --text: #f6f8fb;
+      --muted: #b8c2d2;
+      --muted-2: #8d9aae;
+      --line: rgba(255, 255, 255, 0.14);
+      --primary: #5dd8ff;
+      --primary-2: #7c5cff;
+      --success: #45e6a8;
+      --warning: #ffcf5a;
+      --danger: #ff7373;
+      --shadow: 0 24px 70px rgba(0, 0, 0, 0.32);
+      --radius: 26px;
+      --radius-sm: 16px;
+      --max: 1180px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background:
+        radial-gradient(circle at top left, rgba(93, 216, 255, 0.22), transparent 34rem),
+        radial-gradient(circle at top right, rgba(124, 92, 255, 0.24), transparent 36rem),
+        linear-gradient(135deg, #07111f 0%, #0a1323 47%, #0c1424 100%);
+      color: var(--text);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      background-image:
+        linear-gradient(rgba(255, 255, 255, 0.035) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.035) 1px, transparent 1px);
+      background-size: 42px 42px;
+      mask-image: linear-gradient(to bottom, rgba(0,0,0,.75), transparent 70%);
+      z-index: -1;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      backdrop-filter: blur(18px);
+      background: rgba(7, 17, 31, 0.72);
+      border-bottom: 1px solid var(--line);
+    }
+
+    .topbar-inner {
+      max-width: var(--max);
+      margin: 0 auto;
+      padding: 15px 22px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      min-width: max-content;
+    }
+
+    .logo-mark {
+      width: 42px;
+      height: 42px;
+      border-radius: 14px;
+      background:
+        linear-gradient(135deg, var(--primary), var(--primary-2));
+      box-shadow: 0 12px 30px rgba(93, 216, 255, 0.24);
+      display: grid;
+      place-items: center;
+      font-weight: 900;
+      color: #04101c;
+      letter-spacing: -0.08em;
+    }
+
+    .brand strong {
+      display: block;
+      font-size: 1rem;
+      letter-spacing: .02em;
+    }
+
+    .brand span {
+      display: block;
+      color: var(--muted-2);
+      font-size: .78rem;
+      margin-top: 2px;
+    }
+
+    .nav {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+
+    .nav a, .print-btn {
+      border: 1px solid var(--line);
+      color: var(--muted);
+      padding: 10px 13px;
+      border-radius: 999px;
+      font-size: .84rem;
+      background: rgba(255, 255, 255, 0.04);
+      transition: .2s ease;
+      cursor: pointer;
+    }
+
+    .nav a:hover, .print-btn:hover {
+      color: var(--text);
+      border-color: rgba(93, 216, 255, .55);
+      background: rgba(93, 216, 255, .1);
+      transform: translateY(-1px);
+    }
+
+    .hero {
+      max-width: var(--max);
+      margin: 0 auto;
+      padding: 84px 22px 48px;
+      display: grid;
+      grid-template-columns: 1.18fr .82fr;
+      gap: 38px;
+      align-items: center;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      color: var(--primary);
+      background: rgba(93, 216, 255, 0.1);
+      border: 1px solid rgba(93, 216, 255, 0.26);
+      padding: 9px 13px;
+      border-radius: 999px;
+      font-weight: 700;
+      font-size: .83rem;
+      margin-bottom: 22px;
+    }
+
+    .pulse {
+      width: 8px;
+      height: 8px;
+      background: var(--success);
+      border-radius: 50%;
+      box-shadow: 0 0 0 8px rgba(69, 230, 168, .12);
+    }
+
+    h1 {
+      font-size: clamp(2.65rem, 6vw, 5.45rem);
+      line-height: .92;
+      margin: 0 0 22px;
+      letter-spacing: -0.075em;
+    }
+
+    .gradient-text {
+      background: linear-gradient(135deg, #fff 5%, #bfefff 45%, #b9acff 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    .lead {
+      font-size: clamp(1.08rem, 1.8vw, 1.32rem);
+      color: var(--muted);
+      line-height: 1.65;
+      max-width: 750px;
+      margin: 0;
+    }
+
+    .hero-actions {
+      display: flex;
+      gap: 14px;
+      align-items: center;
+      flex-wrap: wrap;
+      margin-top: 34px;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      min-height: 48px;
+      padding: 0 18px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,.16);
+      background: rgba(255,255,255,.07);
+      color: var(--text);
+      font-weight: 800;
+      transition: .2s ease;
+      box-shadow: 0 12px 30px rgba(0,0,0,.14);
+    }
+
+    .btn.primary {
+      background: linear-gradient(135deg, var(--primary), var(--primary-2));
+      color: #06111f;
+      border: none;
+    }
+
+    .btn:hover {
+      transform: translateY(-2px);
+      filter: brightness(1.08);
+    }
+
+    .hero-card {
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background:
+        linear-gradient(180deg, rgba(255,255,255,.11), rgba(255,255,255,.052));
+      padding: 24px;
+      box-shadow: var(--shadow);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-card::before {
+      content: "";
+      position: absolute;
+      inset: -120px -120px auto auto;
+      width: 240px;
+      height: 240px;
+      background: radial-gradient(circle, rgba(93, 216, 255, .28), transparent 68%);
+      border-radius: 50%;
+    }
+
+    .status-title {
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      align-items: flex-start;
+      margin-bottom: 20px;
+      position: relative;
+    }
+
+    .status-title h2 {
+      margin: 0;
+      font-size: 1.25rem;
+      letter-spacing: -0.03em;
+    }
+
+    .tag {
+      color: #06111f;
+      background: var(--warning);
+      border-radius: 999px;
+      font-weight: 900;
+      font-size: .76rem;
+      padding: 7px 10px;
+      min-width: max-content;
+    }
+
+    .metric-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 14px;
+      position: relative;
+    }
+
+    .metric {
+      border: 1px solid var(--line);
+      border-radius: 20px;
+      padding: 16px;
+      background: rgba(255,255,255,.055);
+    }
+
+    .metric b {
+      display: block;
+      font-size: 2.15rem;
+      line-height: 1;
+      letter-spacing: -0.06em;
+      margin-bottom: 7px;
+    }
+
+    .metric span {
+      color: var(--muted-2);
+      font-size: .88rem;
+      line-height: 1.35;
+    }
+
+    .section {
+      max-width: var(--max);
+      margin: 0 auto;
+      padding: 52px 22px;
+    }
+
+    .section-header {
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 24px;
+      margin-bottom: 24px;
+    }
+
+    .section h2 {
+      font-size: clamp(2rem, 3.5vw, 3.25rem);
+      line-height: 1;
+      letter-spacing: -0.065em;
+      margin: 0;
+    }
+
+    .section p {
+      color: var(--muted);
+      line-height: 1.64;
+    }
+
+    .section-header p {
+      max-width: 510px;
+      margin: 0;
+    }
+
+    .glass {
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: rgba(255,255,255,.06);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+
+    .diagnosis {
+      display: grid;
+      grid-template-columns: .9fr 1.1fr;
+      gap: 0;
+    }
+
+    .diagnosis-panel {
+      padding: 28px;
+      min-height: 100%;
+    }
+
+    .diagnosis-panel:first-child {
+      border-right: 1px solid var(--line);
+      background: linear-gradient(180deg, rgba(255,115,115,.1), rgba(255,255,255,.02));
+    }
+
+    .diagnosis-panel:last-child {
+      background: linear-gradient(180deg, rgba(69,230,168,.1), rgba(255,255,255,.02));
+    }
+
+    .mini-title {
+      color: var(--primary);
+      font-weight: 900;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      font-size: .76rem;
+      margin-bottom: 12px;
+    }
+
+    .list {
+      display: grid;
+      gap: 12px;
+      margin: 22px 0 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .list li {
+      display: grid;
+      grid-template-columns: 28px 1fr;
+      gap: 12px;
+      color: var(--muted);
+      line-height: 1.5;
+    }
+
+    .icon {
+      width: 28px;
+      height: 28px;
+      border-radius: 9px;
+      display: grid;
+      place-items: center;
+      background: rgba(255,255,255,.08);
+      border: 1px solid var(--line);
+      color: var(--primary);
+      font-weight: 900;
+      font-size: .82rem;
+    }
+
+    .roles {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 14px;
+    }
+
+    .role-card {
+      background: rgba(255,255,255,.057);
+      border: 1px solid var(--line);
+      border-radius: 20px;
+      padding: 18px;
+      min-height: 180px;
+    }
+
+    .role-card h3 {
+      margin: 0 0 10px;
+      letter-spacing: -0.03em;
+      font-size: 1.02rem;
+    }
+
+    .role-card p {
+      margin: 0;
+      font-size: .92rem;
+      color: var(--muted);
+    }
+
+    .seniority {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 14px;
+      margin-top: 14px;
+    }
+
+    .level {
+      padding: 18px;
+      border-radius: 20px;
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,.052);
+    }
+
+    .level b {
+      display: block;
+      margin-bottom: 8px;
+      font-size: 1.05rem;
+    }
+
+    .level span {
+      display: block;
+      color: var(--muted);
+      font-size: .9rem;
+      line-height: 1.48;
+    }
+
+    .proposals {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 18px;
+      align-items: stretch;
+    }
+
+    .proposal {
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: rgba(255,255,255,.063);
+      padding: 24px;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 18px 48px rgba(0,0,0,.18);
+      display: flex;
+      flex-direction: column;
+    }
+
+    .proposal.best {
+      transform: translateY(-14px);
+      border-color: rgba(69,230,168,.55);
+      background:
+        linear-gradient(180deg, rgba(69,230,168,.15), rgba(255,255,255,.067));
+      box-shadow: 0 28px 80px rgba(69,230,168,.1), var(--shadow);
+    }
+
+    .proposal.best::before {
+      content: "RECOMENDADA";
+      position: absolute;
+      top: 18px;
+      right: -36px;
+      transform: rotate(36deg);
+      background: var(--success);
+      color: #03130e;
+      font-size: .7rem;
+      font-weight: 1000;
+      letter-spacing: .08em;
+      padding: 8px 48px;
+    }
+
+    .proposal .number {
+      width: 42px;
+      height: 42px;
+      border-radius: 14px;
+      display: grid;
+      place-items: center;
+      background: rgba(93,216,255,.12);
+      color: var(--primary);
+      border: 1px solid rgba(93,216,255,.22);
+      font-weight: 1000;
+      margin-bottom: 18px;
+    }
+
+    .proposal h3 {
+      margin: 0 0 10px;
+      font-size: 1.28rem;
+      letter-spacing: -0.045em;
+    }
+
+    .price {
+      display: flex;
+      align-items: baseline;
+      gap: 7px;
+      margin: 18px 0 16px;
+    }
+
+    .price strong {
+      font-size: clamp(2rem, 4vw, 3.1rem);
+      line-height: .9;
+      letter-spacing: -0.08em;
+    }
+
+    .price span {
+      color: var(--muted-2);
+      font-weight: 700;
+    }
+
+    .proposal ul {
+      padding: 0;
+      list-style: none;
+      display: grid;
+      gap: 10px;
+      margin: 14px 0 24px;
+    }
+
+    .proposal li {
+      color: var(--muted);
+      line-height: 1.45;
+      display: grid;
+      grid-template-columns: 22px 1fr;
+      gap: 10px;
+      font-size: .95rem;
+    }
+
+    .check {
+      color: var(--success);
+      font-weight: 1000;
+    }
+
+    .limit {
+      margin-top: auto;
+      border-top: 1px solid var(--line);
+      padding-top: 16px;
+      color: var(--muted-2);
+      font-size: .88rem;
+      line-height: 1.45;
+    }
+
+    .comparison-wrap {
+      overflow-x: auto;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: rgba(255,255,255,.057);
+      box-shadow: var(--shadow);
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 840px;
+    }
+
+    th, td {
+      padding: 17px 18px;
+      border-bottom: 1px solid var(--line);
+      text-align: left;
+      vertical-align: top;
+    }
+
+    th {
+      color: var(--text);
+      font-size: .87rem;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+      background: rgba(255,255,255,.065);
+    }
+
+    td {
+      color: var(--muted);
+      line-height: 1.45;
+    }
+
+    tr:last-child td {
+      border-bottom: none;
+    }
+
+    .yes {
+      color: var(--success);
+      font-weight: 900;
+    }
+
+    .no {
+      color: var(--danger);
+      font-weight: 900;
+    }
+
+    .partial {
+      color: var(--warning);
+      font-weight: 900;
+    }
+
+    .roadmap {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 14px;
+    }
+
+    .step {
+      padding: 20px;
+      border-radius: 22px;
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,.057);
+      position: relative;
+      min-height: 190px;
+    }
+
+    .step small {
+      display: inline-flex;
+      padding: 6px 10px;
+      border-radius: 999px;
+      color: #06111f;
+      background: var(--primary);
+      font-weight: 1000;
+      margin-bottom: 18px;
+    }
+
+    .step h3 {
+      margin: 0 0 10px;
+      letter-spacing: -0.035em;
+    }
+
+    .step p {
+      margin: 0;
+      font-size: .92rem;
+    }
+
+    .contract {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      align-items: stretch;
+    }
+
+    .contract-card {
+      border: 1px solid var(--line);
+      border-radius: 24px;
+      padding: 24px;
+      background: rgba(255,255,255,.058);
+    }
+
+    .contract-card h3 {
+      margin: 0 0 10px;
+      letter-spacing: -0.04em;
+      font-size: 1.22rem;
+    }
+
+    .contract-card p {
+      margin: 0;
+    }
+
+    .cta {
+      margin: 42px auto 80px;
+      max-width: var(--max);
+      padding: 0 22px;
+    }
+
+    .cta-box {
+      border: 1px solid rgba(69,230,168,.35);
+      border-radius: 32px;
+      background:
+        radial-gradient(circle at top right, rgba(69,230,168,.18), transparent 28rem),
+        linear-gradient(135deg, rgba(93,216,255,.12), rgba(124,92,255,.1));
+      box-shadow: var(--shadow);
+      padding: clamp(28px, 5vw, 52px);
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 24px;
+      align-items: center;
+    }
+
+    .cta h2 {
+      margin: 0 0 12px;
+      font-size: clamp(2rem, 4vw, 3.3rem);
+      letter-spacing: -0.065em;
+      line-height: 1;
+    }
+
+    .cta p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.6;
+      max-width: 780px;
+    }
+
+    .footer {
+      max-width: var(--max);
+      margin: 0 auto;
+      padding: 24px 22px 42px;
+      color: var(--muted-2);
+      font-size: .88rem;
+      display: flex;
+      justify-content: space-between;
+      gap: 18px;
+      border-top: 1px solid var(--line);
+    }
+
+    .mobile-only {
+      display: none;
+    }
+
+    @media (max-width: 980px) {
+      .hero,
+      .diagnosis,
+      .contract,
+      .cta-box {
+        grid-template-columns: 1fr;
+      }
+
+      .roles,
+      .seniority {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .proposals {
+        grid-template-columns: 1fr;
+      }
+
+      .proposal.best {
+        transform: none;
+      }
+
+      .roadmap {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .section-header {
+        display: block;
+      }
+
+      .section-header p {
+        margin-top: 14px;
+      }
+
+      .diagnosis-panel:first-child {
+        border-right: 0;
+        border-bottom: 1px solid var(--line);
+      }
+    }
+
+    @media (max-width: 720px) {
+      .topbar-inner {
+        align-items: flex-start;
+      }
+
+      .nav {
+        display: none;
+      }
+
+      .mobile-only {
+        display: inline-flex;
+      }
+
+      .hero {
+        padding-top: 48px;
+      }
+
+      .metric-grid,
+      .roles,
+      .seniority,
+      .roadmap {
+        grid-template-columns: 1fr;
+      }
+
+      .footer {
+        flex-direction: column;
+      }
+    }
+
+    @media print {
+      body {
+        background: white;
+        color: #101828;
+      }
+
+      body::before,
+      .topbar,
+      .hero-actions,
+      .print-btn {
+        display: none !important;
+      }
+
+      .hero,
+      .section,
+      .cta,
+      .footer {
+        max-width: none;
+        padding-left: 0;
+        padding-right: 0;
+      }
+
+      .glass,
+      .proposal,
+      .comparison-wrap,
+      .step,
+      .contract-card,
+      .cta-box,
+      .hero-card,
+      .role-card,
+      .level {
+        box-shadow: none;
+        background: white;
+        border-color: #d0d5dd;
+        break-inside: avoid;
+      }
+
+      .gradient-text {
+        color: #101828;
+        background: none;
+      }
+
+      p, td, .lead, .list li, .proposal li, .limit, .level span {
+        color: #344054;
+      }
+
+      .section {
+        page-break-inside: avoid;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a class="brand" href="#inicio" aria-label="Início">
+        <div class="logo-mark">DS</div>
+        <div>
+          <strong>Devsider</strong>
+          <span>Proposta estratégica de consultoria e desenvolvimento</span>
+        </div>
+      </a>
+
+      <nav class="nav" aria-label="Navegação principal">
+        <a href="#cenario">Cenário</a>
+        <a href="#cargos">Cargos</a>
+        <a href="#propostas">Propostas</a>
+        <a href="#comparativo">Comparativo</a>
+        <a href="#contrato">Contrato</a>
+        <button class="print-btn" onclick="window.print()">Imprimir / PDF</button>
+      </nav>
+
+      <button class="print-btn mobile-only" onclick="window.print()">PDF</button>
+    </div>
+  </header>
+
+  <main id="inicio">
+    <section class="hero">
+      <div>
+        <div class="eyebrow"><span class="pulse"></span> Três caminhos para recuperar ritmo, previsibilidade e entrega</div>
+        <h1><span class="gradient-text">Propostas para evolução da operação de desenvolvimento</span></h1>
+        <p class="lead">
+          Hoje a Devsider possui múltiplos projetos em andamento, demandas represadas e uma estrutura técnica com estagiários que precisa de direção, priorização e apoio sênior. Nossa proposta é transformar o cenário atual em uma operação mais previsível, com entregas semanais, comunicação clara com os clientes e responsabilidade bem definida.
+        </p>
+
+        <div class="hero-actions">
+          <a class="btn primary" href="#propostas">Ver propostas</a>
+          <a class="btn" href="#comparativo">Comparar opções</a>
+        </div>
+      </div>
+
+      <aside class="hero-card" aria-label="Resumo do cenário atual">
+        <div class="status-title">
+          <div>
+            <div class="mini-title">Cenário atual</div>
+            <h2>Alta demanda com baixa capacidade de execução sênior</h2>
+          </div>
+          <span class="tag">Ação necessária</span>
+        </div>
+
+        <div class="metric-grid">
+          <div class="metric">
+            <b>7+</b>
+            <span>projetos em andamento ou atrasados</span>
+          </div>
+          <div class="metric">
+            <b>3</b>
+            <span>estagiários precisando de direcionamento técnico</span>
+          </div>
+          <div class="metric">
+            <b>3</b>
+            <span>devs sênior atuando como consultores</span>
+          </div>
+          <div class="metric">
+            <b>1</b>
+            <span>objetivo: recuperar previsibilidade de entrega</span>
+          </div>
+        </div>
+      </aside>
+    </section>
+
+    <section class="section" id="cenario">
+      <div class="section-header">
+        <h2>O problema não é só volume. É estrutura.</h2>
+        <p>
+          Projetos atrasados normalmente não são resolvidos apenas “cobrando mais” ou “passando tarefas”. É necessário separar escopo, priorizar, definir responsáveis, transformar demandas grandes em entregas pequenas e garantir acompanhamento técnico.
+        </p>
+      </div>
+
+      <div class="glass diagnosis">
+        <div class="diagnosis-panel">
+          <div class="mini-title">Risco atual</div>
+          <h3>Estagiários não devem carregar responsabilidade de projeto</h3>
+          <p>
+            Estagiários podem e devem contribuir, mas precisam de tarefas bem delimitadas, revisão, acompanhamento e proteção contra decisões críticas de arquitetura, prazo e cliente.
+          </p>
+          <ul class="list">
+            <li><span class="icon">!</span><span>Sem direção sênior, o tempo é gasto em retrabalho e dúvidas básicas.</span></li>
+            <li><span class="icon">!</span><span>Sem priorização, todos os projetos parecem urgentes e nada avança com consistência.</span></li>
+            <li><span class="icon">!</span><span>Sem alguém assumindo cliente e entrega, a comunicação fica reativa.</span></li>
+          </ul>
+        </div>
+
+        <div class="diagnosis-panel">
+          <div class="mini-title">Caminho proposto</div>
+          <h3>Organização, governança e execução com senioridade</h3>
+          <p>
+            A atuação sênior entra para reduzir ruído, organizar backlog, orientar o time, definir entregas semanais e, nas modalidades mais completas, assumir a execução e a comunicação com os clientes.
+          </p>
+          <ul class="list">
+            <li><span class="icon">✓</span><span>Backlog organizado por projeto, prioridade, impacto e complexidade.</span></li>
+            <li><span class="icon">✓</span><span>Ritual semanal de planejamento, acompanhamento e entrega.</span></li>
+            <li><span class="icon">✓</span><span>Responsabilidade clara: quem decide, quem executa e quem valida.</span></li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="cargos">
+      <div class="section-header">
+        <h2>O que cada papel faz em um time de desenvolvimento</h2>
+        <p>
+          Para escalar projetos, é importante entender que desenvolvimento não é apenas “programar”. Existem papéis diferentes que reduzem risco, aumentam qualidade e dão previsibilidade ao negócio.
+        </p>
+      </div>
+
+      <div class="roles">
+        <article class="role-card">
+          <h3>Scrum Master / PM</h3>
+          <p>Organiza demandas, facilita reuniões, remove impedimentos, acompanha prazos e garante que o time trabalhe com foco e previsibilidade.</p>
+        </article>
+        <article class="role-card">
+          <h3>Tech Lead</h3>
+          <p>Define direção técnica, revisa decisões, orienta desenvolvedores e evita soluções frágeis que geram retrabalho.</p>
+        </article>
+        <article class="role-card">
+          <h3>Backend Developer</h3>
+          <p>Cuida de APIs, regras de negócio, integrações, banco de dados, segurança e performance do sistema.</p>
+        </article>
+        <article class="role-card">
+          <h3>Frontend Developer</h3>
+          <p>Desenvolve telas, experiência de uso, integração com APIs, responsividade e comportamento visual do produto.</p>
+        </article>
+        <article class="role-card">
+          <h3>Full Stack Developer</h3>
+          <p>Atua no backend e frontend, conectando regras de negócio, telas e integrações para entregar funcionalidades completas.</p>
+        </article>
+        <article class="role-card">
+          <h3>QA / Testes</h3>
+          <p>Valida funcionalidades, cria cenários de teste, encontra problemas antes do cliente e reduz falhas em produção.</p>
+        </article>
+        <article class="role-card">
+          <h3>DevOps / Infra</h3>
+          <p>Cuida de publicação, ambiente, pipeline, monitoramento, estabilidade e automação de deploy.</p>
+        </article>
+        <article class="role-card">
+          <h3>UX / Produto</h3>
+          <p>Ajuda a transformar necessidade do cliente em fluxo, tela, regra e experiência mais clara para o usuário final.</p>
+        </article>
+      </div>
+
+      <div class="seniority">
+        <div class="level">
+          <b>Estagiário</b>
+          <span>Aprende e executa tarefas pequenas com orientação. Não deve assumir decisões críticas, cliente ou projeto sozinho.</span>
+        </div>
+        <div class="level">
+          <b>Júnior</b>
+          <span>Entrega tarefas de baixa e média complexidade com revisão constante de alguém mais experiente.</span>
+        </div>
+        <div class="level">
+          <b>Pleno</b>
+          <span>Resolve demandas com autonomia moderada, entende impactos e participa das decisões técnicas.</span>
+        </div>
+        <div class="level">
+          <b>Sênior</b>
+          <span>Assume problemas complexos, orienta o time, conversa com o negócio e garante entrega com menor risco.</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="propostas">
+      <div class="section-header">
+        <h2>Três modelos de parceria</h2>
+        <p>
+          As três opções foram pensadas para níveis diferentes de responsabilidade. Quanto maior a responsabilidade assumida por nós, menor a necessidade da Devsider montar e gerir uma equipe própria para sustentar as entregas.
+        </p>
+      </div>
+
+      <div class="proposals">
+        <article class="proposal">
+          <div class="number">1</div>
+          <h3>Consultoria organizacional</h3>
+          <p>Foco em organização, priorização, direcionamento e gestão das demandas.</p>
+          <div class="price"><strong>R$ 10 mil</strong><span>/ mês</span></div>
+          <ul>
+            <li><span class="check">✓</span><span>Organização do backlog dos projetos.</span></li>
+            <li><span class="check">✓</span><span>Definição de prioridades e divisão de tarefas.</span></li>
+            <li><span class="check">✓</span><span>Rituais de acompanhamento com o time.</span></li>
+            <li><span class="check">✓</span><span>Orientação para os estagiários trabalharem com mais clareza.</span></li>
+            <li><span class="check">✓</span><span>Relatório de status, riscos e próximos passos.</span></li>
+          </ul>
+          <div class="limit">
+            <strong>Limite:</strong> não inclui execução de desenvolvimento. Para esse modelo funcionar, a Devsider precisará contratar ou alocar desenvolvedores para executar as demandas.
+          </div>
+        </article>
+
+        <article class="proposal">
+          <div class="number">2</div>
+          <h3>Consultoria + apoio em 1 projeto</h3>
+          <p>Organização geral da operação e execução técnica em um projeto prioritário.</p>
+          <div class="price"><strong>R$ 20 mil</strong><span>/ mês</span></div>
+          <ul>
+            <li><span class="check">✓</span><span>Tudo da proposta 1.</span></li>
+            <li><span class="check">✓</span><span>Apoio de mão de obra sênior em um projeto escolhido.</span></li>
+            <li><span class="check">✓</span><span>Planejamento técnico do projeto prioritário.</span></li>
+            <li><span class="check">✓</span><span>Entregas semanais no projeto atendido.</span></li>
+            <li><span class="check">✓</span><span>Redução de risco em uma frente crítica.</span></li>
+          </ul>
+          <div class="limit">
+            <strong>Limite:</strong> os demais projetos seguem dependendo de equipe própria da Devsider. A atuação técnica direta fica concentrada em uma frente.
+          </div>
+        </article>
+
+        <article class="proposal best">
+          <div class="number">3</div>
+          <h3>Operação completa de desenvolvimento</h3>
+          <p>Assumimos a gestão técnica, execução, cliente e rotina de entregas semanais.</p>
+          <div class="price"><strong>R$ 35 mil</strong><span>/ mês</span></div>
+          <ul>
+            <li><span class="check">✓</span><span>Gestão dos projetos e organização das demandas.</span></li>
+            <li><span class="check">✓</span><span>Execução técnica com devs sênior.</span></li>
+            <li><span class="check">✓</span><span>Reuniões com clientes e alinhamento de expectativas.</span></li>
+            <li><span class="check">✓</span><span>Entregas semanais com acompanhamento de progresso.</span></li>
+            <li><span class="check">✓</span><span>Priorização, revisão técnica e validação de qualidade.</span></li>
+            <li><span class="check">✓</span><span>Menor necessidade de montar equipe interna para sustentar os projetos.</span></li>
+          </ul>
+          <div class="limit">
+            <strong>Melhor custo-benefício:</strong> a Devsider reduz a necessidade de contratar, treinar e coordenar uma equipe completa, enquanto ganha previsibilidade e responsabilidade centralizada.
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="section" id="comparativo">
+      <div class="section-header">
+        <h2>Comparativo objetivo</h2>
+        <p>
+          A diferença principal entre os modelos está no nível de responsabilidade assumida: organização, execução parcial ou operação completa.
+        </p>
+      </div>
+
+      <div class="comparison-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Critério</th>
+              <th>Proposta 1<br>R$ 10 mil</th>
+              <th>Proposta 2<br>R$ 20 mil</th>
+              <th>Proposta 3<br>R$ 35 mil</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Organização de backlog e prioridades</td>
+              <td><span class="yes">Sim</span></td>
+              <td><span class="yes">Sim</span></td>
+              <td><span class="yes">Sim</span></td>
+            </tr>
+            <tr>
+              <td>Acompanhamento dos estagiários</td>
+              <td><span class="yes">Sim</span>, com orientação de tarefas</td>
+              <td><span class="yes">Sim</span>, com foco adicional no projeto escolhido</td>
+              <td><span class="yes">Sim</span>, dentro de uma operação completa</td>
+            </tr>
+            <tr>
+              <td>Execução de desenvolvimento</td>
+              <td><span class="no">Não</span></td>
+              <td><span class="partial">Parcial</span>, em 1 projeto</td>
+              <td><span class="yes">Sim</span>, assumindo a operação</td>
+            </tr>
+            <tr>
+              <td>Reuniões com cliente</td>
+              <td><span class="partial">Pontual</span>, para alinhamento estratégico</td>
+              <td><span class="partial">Pontual</span>, ligada ao projeto escolhido</td>
+              <td><span class="yes">Sim</span>, com gestão ativa das entregas</td>
+            </tr>
+            <tr>
+              <td>Entregas semanais</td>
+              <td><span class="no">Não garantidas</span>, dependem da equipe interna</td>
+              <td><span class="partial">Sim</span>, no projeto atendido</td>
+              <td><span class="yes">Sim</span>, como rotina de operação</td>
+            </tr>
+            <tr>
+              <td>Necessidade de contratação pela Devsider</td>
+              <td><span class="yes">Alta</span></td>
+              <td><span class="partial">Média</span></td>
+              <td><span class="no">Baixa</span></td>
+            </tr>
+            <tr>
+              <td>Indicado para</td>
+              <td>Empresas que querem organizar a casa e contratar equipe própria.</td>
+              <td>Empresas que querem resolver uma frente crítica enquanto organizam as demais.</td>
+              <td>Empresas que querem previsibilidade sem montar uma equipe completa agora.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="section" id="modelo">
+      <div class="section-header">
+        <h2>Como funcionaria a rotina semanal</h2>
+        <p>
+          Independente do modelo escolhido, o trabalho começa trazendo visibilidade. Na proposta 3, esse fluxo vira uma operação contínua de entrega.
+        </p>
+      </div>
+
+      <div class="roadmap">
+        <article class="step">
+          <small>01</small>
+          <h3>Mapeamento</h3>
+          <p>Levantamento dos projetos, demandas abertas, bloqueios, clientes envolvidos e riscos atuais.</p>
+        </article>
+        <article class="step">
+          <small>02</small>
+          <h3>Priorização</h3>
+          <p>Separação do que é urgente, importante, dependência técnica, melhoria e manutenção.</p>
+        </article>
+        <article class="step">
+          <small>03</small>
+          <h3>Execução guiada</h3>
+          <p>Distribuição das demandas, orientação técnica e acompanhamento do progresso durante a semana.</p>
+        </article>
+        <article class="step">
+          <small>04</small>
+          <h3>Entrega e alinhamento</h3>
+          <p>Demonstração do avanço, validação com envolvidos e definição dos próximos passos.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="section" id="contrato">
+      <div class="section-header">
+        <h2>Condição contratual comum</h2>
+        <p>
+          As três propostas têm uma condição flexível para reduzir risco dos dois lados.
+        </p>
+      </div>
+
+      <div class="contract">
+        <article class="contract-card">
+          <h3>Rompimento sem multa</h3>
+          <p>
+            O contrato pode ser encerrado por qualquer uma das partes, sem cobrança de juros ou multa de rompimento.
+          </p>
+        </article>
+        <article class="contract-card">
+          <h3>Pagamento proporcional</h3>
+          <p>
+            Em caso de encerramento durante o mês, será devido apenas o valor proporcional ao período efetivamente trabalhado.
+          </p>
+        </article>
+      </div>
+    </section>
+
+    <section class="cta">
+      <div class="cta-box">
+        <div>
+          <h2>Recomendação: Proposta 3</h2>
+          <p>
+            Para o cenário atual, a proposta 3 é a mais indicada porque resolve o principal gargalo: a Devsider não precisa montar imediatamente uma equipe completa, enquanto ganha senioridade, execução, alinhamento com clientes e entregas semanais em uma única operação.
+          </p>
+        </div>
+        <a class="btn primary" href="#propostas">Rever propostas</a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <span>Proposta comercial | Devsider</span>
+    <span>Consultoria, organização e desenvolvimento com atuação sênior</span>
+  </footer>
+</body>
+</html>
