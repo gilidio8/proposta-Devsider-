@@ -1,0 +1,1014 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Projeto Tallkme | Devsider</title>
+  <style>
+    :root {
+      --bg: #07111f;
+      --bg-soft: #0d1b2e;
+      --card: rgba(255, 255, 255, 0.075);
+      --card-strong: rgba(255, 255, 255, 0.115);
+      --text: #f6f8fb;
+      --muted: #b8c2d2;
+      --muted-2: #8d9aae;
+      --line: rgba(255, 255, 255, 0.14);
+      --primary: #5dd8ff;
+      --primary-2: #7c5cff;
+      --success: #45e6a8;
+      --warning: #ffcf5a;
+      --danger: #ff7373;
+      --shadow: 0 24px 70px rgba(0, 0, 0, 0.32);
+      --radius: 26px;
+      --max: 1180px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background:
+        radial-gradient(circle at top left, rgba(93, 216, 255, 0.22), transparent 34rem),
+        radial-gradient(circle at top right, rgba(124, 92, 255, 0.24), transparent 36rem),
+        linear-gradient(135deg, #07111f 0%, #0a1323 47%, #0c1424 100%);
+      color: var(--text);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      background-image:
+        linear-gradient(rgba(255, 255, 255, 0.035) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.035) 1px, transparent 1px);
+      background-size: 42px 42px;
+      mask-image: linear-gradient(to bottom, rgba(0,0,0,.75), transparent 70%);
+      z-index: -1;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      backdrop-filter: blur(18px);
+      background: rgba(7, 17, 31, 0.72);
+      border-bottom: 1px solid var(--line);
+    }
+
+    .topbar-inner {
+      max-width: var(--max);
+      margin: 0 auto;
+      padding: 15px 22px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      min-width: max-content;
+    }
+
+    .logo-mark {
+      width: 42px;
+      height: 42px;
+      border-radius: 14px;
+      background: linear-gradient(135deg, var(--primary), var(--primary-2));
+      box-shadow: 0 12px 30px rgba(93, 216, 255, 0.24);
+      display: grid;
+      place-items: center;
+      font-weight: 900;
+      color: #04101c;
+      letter-spacing: -0.08em;
+    }
+
+    .brand strong {
+      display: block;
+      font-size: 1rem;
+      letter-spacing: .02em;
+    }
+
+    .brand span {
+      display: block;
+      color: var(--muted-2);
+      font-size: .78rem;
+      margin-top: 2px;
+    }
+
+    .nav {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+
+    .nav a,
+    .print-btn {
+      border: 1px solid var(--line);
+      color: var(--muted);
+      padding: 10px 13px;
+      border-radius: 999px;
+      font-size: .84rem;
+      background: rgba(255, 255, 255, 0.04);
+      transition: .2s ease;
+      cursor: pointer;
+    }
+
+    .nav a:hover,
+    .print-btn:hover {
+      color: var(--text);
+      border-color: rgba(93, 216, 255, .55);
+      background: rgba(93, 216, 255, .1);
+      transform: translateY(-1px);
+    }
+
+    .hero {
+      max-width: var(--max);
+      margin: 0 auto;
+      padding: 84px 22px 48px;
+      display: grid;
+      grid-template-columns: 1.08fr .92fr;
+      gap: 38px;
+      align-items: center;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      color: var(--primary);
+      background: rgba(93, 216, 255, 0.1);
+      border: 1px solid rgba(93, 216, 255, 0.26);
+      padding: 9px 13px;
+      border-radius: 999px;
+      font-weight: 700;
+      font-size: .83rem;
+      margin-bottom: 22px;
+    }
+
+    .pulse {
+      width: 8px;
+      height: 8px;
+      background: var(--success);
+      border-radius: 50%;
+      box-shadow: 0 0 0 8px rgba(69, 230, 168, .12);
+    }
+
+    h1 {
+      font-size: clamp(2.65rem, 6vw, 5.1rem);
+      line-height: .92;
+      margin: 0 0 22px;
+      letter-spacing: -0.075em;
+    }
+
+    .gradient-text {
+      background: linear-gradient(135deg, #fff 5%, #bfefff 45%, #b9acff 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    .lead {
+      font-size: clamp(1.08rem, 1.8vw, 1.32rem);
+      color: var(--muted);
+      line-height: 1.65;
+      max-width: 760px;
+      margin: 0;
+    }
+
+    .hero-actions {
+      display: flex;
+      gap: 14px;
+      align-items: center;
+      flex-wrap: wrap;
+      margin-top: 34px;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      min-height: 48px;
+      padding: 0 18px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,.16);
+      background: rgba(255,255,255,.07);
+      color: var(--text);
+      font-weight: 800;
+      transition: .2s ease;
+      box-shadow: 0 12px 30px rgba(0,0,0,.14);
+    }
+
+    .btn.primary {
+      background: linear-gradient(135deg, var(--primary), var(--primary-2));
+      color: #06111f;
+      border: none;
+    }
+
+    .btn:hover {
+      transform: translateY(-2px);
+      filter: brightness(1.08);
+    }
+
+    .hero-card {
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: linear-gradient(180deg, rgba(255,255,255,.11), rgba(255,255,255,.052));
+      padding: 24px;
+      box-shadow: var(--shadow);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-card::before {
+      content: "";
+      position: absolute;
+      inset: -120px -120px auto auto;
+      width: 240px;
+      height: 240px;
+      background: radial-gradient(circle, rgba(93, 216, 255, .28), transparent 68%);
+      border-radius: 50%;
+    }
+
+    .status-title {
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      align-items: flex-start;
+      margin-bottom: 20px;
+      position: relative;
+    }
+
+    .status-title h2 {
+      margin: 0;
+      font-size: 1.25rem;
+      letter-spacing: -0.03em;
+    }
+
+    .tag {
+      color: #06111f;
+      background: var(--warning);
+      border-radius: 999px;
+      font-weight: 900;
+      font-size: .76rem;
+      padding: 7px 10px;
+      min-width: max-content;
+    }
+
+    .metric-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 14px;
+      position: relative;
+    }
+
+    .metric {
+      border: 1px solid var(--line);
+      border-radius: 20px;
+      padding: 16px;
+      background: rgba(255,255,255,.055);
+    }
+
+    .metric b {
+      display: block;
+      font-size: 1.6rem;
+      line-height: 1;
+      letter-spacing: -0.06em;
+      margin-bottom: 7px;
+    }
+
+    .metric span {
+      color: var(--muted-2);
+      font-size: .88rem;
+      line-height: 1.35;
+    }
+
+    .section {
+      max-width: var(--max);
+      margin: 0 auto;
+      padding: 52px 22px;
+    }
+
+    .section-header {
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 24px;
+      margin-bottom: 24px;
+    }
+
+    .section h2 {
+      font-size: clamp(2rem, 3.5vw, 3.25rem);
+      line-height: 1;
+      letter-spacing: -0.065em;
+      margin: 0;
+    }
+
+    .section p {
+      color: var(--muted);
+      line-height: 1.64;
+    }
+
+    .section-header p {
+      max-width: 540px;
+      margin: 0;
+    }
+
+    .glass {
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: rgba(255,255,255,.06);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+
+    .mini-title {
+      color: var(--primary);
+      font-weight: 900;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      font-size: .76rem;
+      margin-bottom: 12px;
+    }
+
+    .content-card {
+      padding: 28px;
+      background: linear-gradient(180deg, rgba(255,255,255,.08), rgba(255,255,255,.035));
+    }
+
+    .content-card p {
+      margin: 0;
+      font-size: 1.02rem;
+    }
+
+    .work-grid,
+    .value-grid,
+    .deliverables {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+    }
+
+    .work-card,
+    .value-card,
+    .deliverable-card {
+      background: rgba(255,255,255,.057);
+      border: 1px solid var(--line);
+      border-radius: 20px;
+      padding: 18px;
+      min-height: 150px;
+    }
+
+    .work-card h3,
+    .value-card h3,
+    .deliverable-card h3 {
+      margin: 0 0 10px;
+      letter-spacing: -0.03em;
+      font-size: 1.02rem;
+    }
+
+    .work-card p,
+    .value-card p,
+    .deliverable-card p {
+      margin: 0;
+      font-size: .92rem;
+      color: var(--muted);
+    }
+
+    .icon {
+      width: 28px;
+      height: 28px;
+      border-radius: 9px;
+      display: grid;
+      place-items: center;
+      background: rgba(255,255,255,.08);
+      border: 1px solid var(--line);
+      color: var(--primary);
+      font-weight: 900;
+      font-size: .82rem;
+      margin-bottom: 14px;
+    }
+
+    .comparison-wrap {
+      overflow-x: auto;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: rgba(255,255,255,.057);
+      box-shadow: var(--shadow);
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 840px;
+    }
+
+    th,
+    td {
+      padding: 17px 18px;
+      border-bottom: 1px solid var(--line);
+      text-align: left;
+      vertical-align: top;
+    }
+
+    th {
+      color: var(--text);
+      font-size: .87rem;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+      background: rgba(255,255,255,.065);
+    }
+
+    td {
+      color: var(--muted);
+      line-height: 1.45;
+    }
+
+    tr:last-child td {
+      border-bottom: none;
+    }
+
+    .price-panel {
+      display: grid;
+      grid-template-columns: 1fr .85fr;
+      gap: 16px;
+      align-items: stretch;
+    }
+
+    .price-card {
+      border: 1px solid var(--line);
+      border-radius: 24px;
+      padding: 24px;
+      background: rgba(255,255,255,.058);
+    }
+
+    .price-card.featured {
+      border-color: rgba(69,230,168,.55);
+      background:
+        radial-gradient(circle at top right, rgba(69,230,168,.18), transparent 20rem),
+        linear-gradient(180deg, rgba(69,230,168,.12), rgba(255,255,255,.058));
+    }
+
+    .price-card h3 {
+      margin: 0 0 12px;
+      letter-spacing: -0.04em;
+      font-size: 1.22rem;
+    }
+
+    .price {
+      display: flex;
+      align-items: baseline;
+      gap: 8px;
+      margin: 12px 0 16px;
+    }
+
+    .price strong {
+      font-size: clamp(2rem, 4vw, 3.1rem);
+      line-height: .9;
+      letter-spacing: -0.08em;
+    }
+
+    .price span {
+      color: var(--muted-2);
+      font-weight: 700;
+    }
+
+    .list {
+      display: grid;
+      gap: 12px;
+      margin: 18px 0 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .list li {
+      display: grid;
+      grid-template-columns: 28px 1fr;
+      gap: 12px;
+      color: var(--muted);
+      line-height: 1.5;
+    }
+
+    .check {
+      width: 28px;
+      height: 28px;
+      border-radius: 9px;
+      display: grid;
+      place-items: center;
+      background: rgba(69,230,168,.11);
+      border: 1px solid rgba(69,230,168,.28);
+      color: var(--success);
+      font-weight: 1000;
+      font-size: .82rem;
+    }
+
+    .cta {
+      margin: 42px auto 80px;
+      max-width: var(--max);
+      padding: 0 22px;
+    }
+
+    .cta-box {
+      border: 1px solid rgba(69,230,168,.35);
+      border-radius: 32px;
+      background:
+        radial-gradient(circle at top right, rgba(69,230,168,.18), transparent 28rem),
+        linear-gradient(135deg, rgba(93,216,255,.12), rgba(124,92,255,.1));
+      box-shadow: var(--shadow);
+      padding: clamp(28px, 5vw, 52px);
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 24px;
+      align-items: center;
+    }
+
+    .cta h2 {
+      margin: 0 0 12px;
+      font-size: clamp(2rem, 4vw, 3.3rem);
+      letter-spacing: -0.065em;
+      line-height: 1;
+    }
+
+    .cta p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.6;
+      max-width: 820px;
+    }
+
+    .footer {
+      max-width: var(--max);
+      margin: 0 auto;
+      padding: 24px 22px 42px;
+      color: var(--muted-2);
+      font-size: .88rem;
+      display: flex;
+      justify-content: space-between;
+      gap: 18px;
+      border-top: 1px solid var(--line);
+    }
+
+    .mobile-only {
+      display: none;
+    }
+
+    @media (max-width: 980px) {
+      .hero,
+      .price-panel,
+      .cta-box {
+        grid-template-columns: 1fr;
+      }
+
+      .work-grid,
+      .value-grid,
+      .deliverables {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .section-header {
+        display: block;
+      }
+
+      .section-header p {
+        margin-top: 14px;
+      }
+    }
+
+    @media (max-width: 720px) {
+      .topbar-inner {
+        align-items: flex-start;
+      }
+
+      .nav {
+        display: none;
+      }
+
+      .mobile-only {
+        display: inline-flex;
+      }
+
+      .hero {
+        padding-top: 48px;
+      }
+
+      .metric-grid,
+      .work-grid,
+      .value-grid,
+      .deliverables {
+        grid-template-columns: 1fr;
+      }
+
+      .footer {
+        flex-direction: column;
+      }
+    }
+
+    @media print {
+      body {
+        background: white;
+        color: #101828;
+      }
+
+      body::before,
+      .topbar,
+      .hero-actions,
+      .print-btn {
+        display: none !important;
+      }
+
+      .hero,
+      .section,
+      .cta,
+      .footer {
+        max-width: none;
+        padding-left: 0;
+        padding-right: 0;
+      }
+
+      .glass,
+      .work-card,
+      .value-card,
+      .deliverable-card,
+      .comparison-wrap,
+      .price-card,
+      .cta-box,
+      .hero-card {
+        box-shadow: none;
+        background: white;
+        border-color: #d0d5dd;
+        break-inside: avoid;
+      }
+
+      .gradient-text {
+        color: #101828;
+        background: none;
+      }
+
+      p,
+      td,
+      .lead,
+      .list li,
+      .metric span {
+        color: #344054;
+      }
+
+      .section {
+        page-break-inside: avoid;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a class="brand" href="index.html" aria-label="Voltar para proposta principal">
+        <div class="logo-mark">DS</div>
+        <div>
+          <strong>Devsider</strong>
+          <span>Detalhamento técnico do Projeto Tallkme</span>
+        </div>
+      </a>
+
+      <nav class="nav" aria-label="Navegação principal">
+        <a href="index.html">Proposta principal</a>
+        <a href="#feito">O que foi feito</a>
+        <a href="#valor">Valor</a>
+        <a href="#entregaveis">Entregáveis</a>
+        <a href="index.html#propostas">Ver propostas</a>
+        <button class="print-btn" onclick="window.print()">Imprimir / PDF</button>
+      </nav>
+
+      <button class="print-btn mobile-only" onclick="window.print()">PDF</button>
+    </div>
+  </header>
+
+  <main id="inicio">
+    <section class="hero">
+      <div>
+        <div class="eyebrow"><span class="pulse"></span> Arquitetura, mobile WebView, VoIP e integração ARI</div>
+        <h1><span class="gradient-text">Projeto Tallkme</span></h1>
+        <p class="lead">
+          Detalhamento técnico do trabalho executado por desenvolvedor sênior para discutir arquitetura com o cliente, criar um aplicativo Mobile WebView com sessão VoIP integrada e desenvolver um serviço bridge ARI para notificações push no servidor do cliente.
+        </p>
+
+        <div class="hero-actions">
+          <a class="btn primary" href="index.html">Voltar para proposta principal</a>
+          <a class="btn" href="index.html#propostas">Ver propostas</a>
+          <button class="btn" onclick="window.print()">Imprimir / PDF</button>
+        </div>
+      </div>
+
+      <aside class="hero-card" aria-label="Resumo do Projeto Tallkme">
+        <div class="status-title">
+          <div>
+            <div class="mini-title">Escopo realizado</div>
+            <h2>Aplicativo mobile, sessão VoIP e serviço bridge integrado ao servidor</h2>
+          </div>
+          <span class="tag">Sênior</span>
+        </div>
+
+        <div class="metric-grid">
+          <div class="metric">
+            <b>Arquitetura</b>
+            <span>pesquisa técnica e reunião com cliente para definir caminho de integração</span>
+          </div>
+          <div class="metric">
+            <b>WebView</b>
+            <span>aplicativo mobile carregando a experiência do serviço do cliente</span>
+          </div>
+          <div class="metric">
+            <b>VoIP</b>
+            <span>sessão integrada ao serviço do cliente dentro do fluxo mobile</span>
+          </div>
+          <div class="metric">
+            <b>ARI Push</b>
+            <span>bridge para notificação push integrada ao servidor do cliente</span>
+          </div>
+        </div>
+      </aside>
+    </section>
+
+    <section class="section" id="resumo">
+      <div class="section-header">
+        <h2>Resumo executivo</h2>
+        <p>
+          O Projeto Tallkme não foi apenas uma tela mobile. Ele envolveu análise de arquitetura, integração entre camadas e desenvolvimento de serviço técnico no ambiente do cliente.
+        </p>
+      </div>
+
+      <div class="glass content-card">
+        <p>
+          A entrega exigiu atuação sênior para entender o cenário do cliente, discutir arquitetura, desenvolver um aplicativo Mobile WebView, integrar a sessão VoIP ao serviço existente e criar um serviço bridge ARI responsável por conectar eventos de telefonia/servidor com notificações push. Esse tipo de trabalho tem valor por combinar mobile, comunicação em tempo real, servidor, integração VoIP e tomada de decisão técnica.
+        </p>
+      </div>
+    </section>
+
+    <section class="section" id="feito">
+      <div class="section-header">
+        <h2>O que foi feito</h2>
+        <p>
+          O escopo concentrou decisões técnicas críticas e implementação integrada entre aplicativo mobile, serviço do cliente e infraestrutura de comunicação.
+        </p>
+      </div>
+
+      <div class="work-grid">
+        <article class="work-card">
+          <div class="icon">01</div>
+          <h3>Pesquisa técnica</h3>
+          <p>Levantamento de opções, riscos e caminho viável para integrar mobile, VoIP, servidor e notificações.</p>
+        </article>
+        <article class="work-card">
+          <div class="icon">02</div>
+          <h3>Reunião com cliente</h3>
+          <p>Discussão de arquitetura, alinhamento de responsabilidades técnicas e entendimento do ambiente existente.</p>
+        </article>
+        <article class="work-card">
+          <div class="icon">03</div>
+          <h3>Aplicativo Mobile WebView</h3>
+          <p>Desenvolvimento do app mobile para encapsular e disponibilizar o serviço do cliente em formato aplicativo.</p>
+        </article>
+        <article class="work-card">
+          <div class="icon">04</div>
+          <h3>Sessão VoIP integrada</h3>
+          <p>Integração da sessão VoIP ao fluxo do aplicativo, conectando a experiência mobile ao serviço do cliente.</p>
+        </article>
+        <article class="work-card">
+          <div class="icon">05</div>
+          <h3>Bridge ARI</h3>
+          <p>Desenvolvimento de serviço ponte para comunicação com ARI e repasse de eventos relevantes ao fluxo de push.</p>
+        </article>
+        <article class="work-card">
+          <div class="icon">06</div>
+          <h3>Notificação push</h3>
+          <p>Integração do serviço bridge com notificações push para alertar o aplicativo a partir de eventos do servidor.</p>
+        </article>
+        <article class="work-card">
+          <div class="icon">07</div>
+          <h3>Integração no servidor</h3>
+          <p>Adaptação do serviço para rodar conectado ao ambiente do cliente, respeitando a estrutura disponível.</p>
+        </article>
+        <article class="work-card">
+          <div class="icon">08</div>
+          <h3>Validação técnica</h3>
+          <p>Testes de funcionamento entre aplicativo, sessão VoIP, serviço bridge e servidor do cliente.</p>
+        </article>
+        <article class="work-card">
+          <div class="icon">09</div>
+          <h3>Ajustes finais</h3>
+          <p>Correções e refinamentos necessários para estabilizar a comunicação entre as partes integradas.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="section" id="valor">
+      <div class="section-header">
+        <h2>Por que esse trabalho tem valor</h2>
+        <p>
+          A entrega exige senioridade porque envolve integração de tecnologias diferentes, ambiente real do cliente e fluxo sensível de comunicação.
+        </p>
+      </div>
+
+      <div class="value-grid">
+        <article class="value-card">
+          <h3>Arquitetura técnica</h3>
+          <p>Definir uma solução viável antes de implementar reduz retrabalho, riscos e bloqueios futuros.</p>
+        </article>
+        <article class="value-card">
+          <h3>Mobile WebView</h3>
+          <p>Transformar o serviço do cliente em aplicativo exige cuidados com sessão, fluxo, permissões e experiência.</p>
+        </article>
+        <article class="value-card">
+          <h3>VoIP integrado</h3>
+          <p>Comunicação VoIP é sensível a estado, conectividade, sessão e resposta em tempo adequado.</p>
+        </article>
+        <article class="value-card">
+          <h3>ARI bridge</h3>
+          <p>Construir uma ponte com ARI demanda entendimento de eventos, servidor e integração com sistemas externos.</p>
+        </article>
+        <article class="value-card">
+          <h3>Push notification</h3>
+          <p>Notificações precisam sair de eventos corretos e chegar ao app com confiabilidade operacional.</p>
+        </article>
+        <article class="value-card">
+          <h3>Servidor do cliente</h3>
+          <p>Implantar e integrar no ambiente real do cliente aumenta responsabilidade e exige cuidado técnico.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="section" id="comparativo">
+      <div class="section-header">
+        <h2>Comparativo de esforço</h2>
+        <p>
+          O esforço não está apenas no aplicativo. A parte crítica está na integração entre app, VoIP, ARI, push e servidor.
+        </p>
+      </div>
+
+      <div class="comparison-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Item</th>
+              <th>Complexidade</th>
+              <th>Observação</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Pesquisa técnica</td>
+              <td>Média/Alta</td>
+              <td>Entender caminhos possíveis para integrar mobile, VoIP, ARI e push.</td>
+            </tr>
+            <tr>
+              <td>Reunião de arquitetura</td>
+              <td>Média</td>
+              <td>Alinhar decisões, restrições do ambiente e responsabilidades com o cliente.</td>
+            </tr>
+            <tr>
+              <td>Aplicativo Mobile WebView</td>
+              <td>Média</td>
+              <td>Criar app funcional com experiência mobile e acesso ao serviço existente.</td>
+            </tr>
+            <tr>
+              <td>Sessão VoIP integrada</td>
+              <td>Alta</td>
+              <td>Integrar comunicação em tempo real ao fluxo do aplicativo e do serviço do cliente.</td>
+            </tr>
+            <tr>
+              <td>Serviço bridge ARI</td>
+              <td>Alta</td>
+              <td>Desenvolver ponte para eventos e comunicação com o servidor do cliente.</td>
+            </tr>
+            <tr>
+              <td>Notificação push</td>
+              <td>Média/Alta</td>
+              <td>Conectar eventos do servidor ao envio de notificações para o aplicativo.</td>
+            </tr>
+            <tr>
+              <td>Integração no servidor</td>
+              <td>Alta</td>
+              <td>Adaptar o serviço ao ambiente real do cliente, com dependências e validações.</td>
+            </tr>
+            <tr>
+              <td>Suporte e ajustes finais</td>
+              <td>Alta</td>
+              <td>Corrigir pontos de integração até o fluxo funcionar de forma consistente.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="section" id="estimativa">
+      <div class="section-header">
+        <h2>Estimativa de valor de mercado</h2>
+        <p>
+          Serviços desse tipo costumam ser cobrados considerando senioridade, risco técnico, integrações específicas e responsabilidade sobre ambiente de cliente.
+        </p>
+      </div>
+
+      <div class="price-panel">
+        <article class="price-card">
+          <h3>Critérios considerados</h3>
+          <ul class="list">
+            <li><span class="check">✓</span><span>Horas técnicas de desenvolvedor sênior.</span></li>
+            <li><span class="check">✓</span><span>Pesquisa e decisão de arquitetura com o cliente.</span></li>
+            <li><span class="check">✓</span><span>Desenvolvimento mobile com integração WebView.</span></li>
+            <li><span class="check">✓</span><span>Integração VoIP e eventos de comunicação em tempo real.</span></li>
+            <li><span class="check">✓</span><span>Desenvolvimento de bridge ARI e notificação push no servidor do cliente.</span></li>
+          </ul>
+        </article>
+
+        <article class="price-card featured">
+          <h3>Valor recomendado</h3>
+          <p>Faixa de mercado recomendada:</p>
+          <div class="price"><strong>R$ 8.000 a R$ 12.000</strong></div>
+          <p>Valor sugerido para cobrança:</p>
+          <div class="price"><strong>R$ 9.500</strong></div>
+          <p>
+            R$ 9.500 é um valor equilibrado por representar uma entrega sênior com arquitetura, aplicativo mobile, integração VoIP, serviço bridge ARI, push notification e validação no ambiente do cliente, sem cobrar como se fosse a construção completa de uma plataforma nova.
+          </p>
+        </article>
+      </div>
+    </section>
+
+    <section class="section" id="entregaveis">
+      <div class="section-header">
+        <h2>Entregáveis</h2>
+        <p>
+          A entrega final contempla decisões de arquitetura, aplicativo e serviço de integração conectado ao ambiente do cliente.
+        </p>
+      </div>
+
+      <div class="deliverables">
+        <article class="deliverable-card">
+          <h3>Pesquisa técnica realizada</h3>
+          <p>Levantamento do caminho de integração entre mobile, VoIP, ARI e push.</p>
+        </article>
+        <article class="deliverable-card">
+          <h3>Arquitetura discutida</h3>
+          <p>Reunião com cliente para definir abordagem e restrições da solução.</p>
+        </article>
+        <article class="deliverable-card">
+          <h3>Aplicativo Mobile WebView</h3>
+          <p>App desenvolvido para disponibilizar o serviço do cliente no ambiente mobile.</p>
+        </article>
+        <article class="deliverable-card">
+          <h3>Sessão VoIP integrada</h3>
+          <p>Fluxo de comunicação VoIP integrado ao aplicativo e ao serviço do cliente.</p>
+        </article>
+        <article class="deliverable-card">
+          <h3>Serviço bridge ARI</h3>
+          <p>Ponte desenvolvida para processar eventos e integrar com o servidor do cliente.</p>
+        </article>
+        <article class="deliverable-card">
+          <h3>Push integrado</h3>
+          <p>Notificações push acionadas a partir do fluxo do serviço bridge.</p>
+        </article>
+        <article class="deliverable-card">
+          <h3>Suporte em ajustes finais</h3>
+          <p>Ajustes para estabilizar a comunicação entre aplicativo, servidor e serviço VoIP.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="cta" id="recomendacao">
+      <div class="cta-box">
+        <div>
+          <h2>Recomendação comercial</h2>
+          <p>
+            Para fins comerciais, o valor de R$ 9.500 é justificável por representar uma entrega sênior de arquitetura, desenvolvimento mobile, integração VoIP, criação de serviço bridge ARI, notificação push e suporte no ambiente do cliente. Não se trata apenas de um app WebView simples, mas de uma solução integrada entre aplicativo, comunicação e servidor.
+          </p>
+        </div>
+        <a class="btn primary" href="index.html#propostas">Ver propostas</a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <span>Projeto Tallkme | Devsider</span>
+    <span>Arquitetura, Mobile WebView, VoIP, bridge ARI e notificação push</span>
+  </footer>
+</body>
+</html>
