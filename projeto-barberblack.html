@@ -1,0 +1,994 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Projeto BarberBlack | Devsider</title>
+  <style>
+    :root {
+      --bg: #07111f;
+      --card: rgba(255, 255, 255, 0.075);
+      --text: #f6f8fb;
+      --muted: #b8c2d2;
+      --muted-2: #8d9aae;
+      --line: rgba(255, 255, 255, 0.14);
+      --primary: #5dd8ff;
+      --primary-2: #7c5cff;
+      --success: #45e6a8;
+      --warning: #ffcf5a;
+      --shadow: 0 24px 70px rgba(0, 0, 0, 0.32);
+      --radius: 26px;
+      --max: 1180px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background:
+        radial-gradient(circle at top left, rgba(93, 216, 255, 0.22), transparent 34rem),
+        radial-gradient(circle at top right, rgba(124, 92, 255, 0.24), transparent 36rem),
+        linear-gradient(135deg, #07111f 0%, #0a1323 47%, #0c1424 100%);
+      color: var(--text);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      background-image:
+        linear-gradient(rgba(255, 255, 255, 0.035) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.035) 1px, transparent 1px);
+      background-size: 42px 42px;
+      mask-image: linear-gradient(to bottom, rgba(0,0,0,.75), transparent 70%);
+      z-index: -1;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      backdrop-filter: blur(18px);
+      background: rgba(7, 17, 31, 0.72);
+      border-bottom: 1px solid var(--line);
+    }
+
+    .topbar-inner {
+      max-width: var(--max);
+      margin: 0 auto;
+      padding: 15px 22px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      min-width: max-content;
+    }
+
+    .logo-mark {
+      width: 42px;
+      height: 42px;
+      border-radius: 14px;
+      background: linear-gradient(135deg, var(--primary), var(--primary-2));
+      box-shadow: 0 12px 30px rgba(93, 216, 255, 0.24);
+      display: grid;
+      place-items: center;
+      font-weight: 900;
+      color: #04101c;
+      letter-spacing: -0.08em;
+    }
+
+    .brand strong {
+      display: block;
+      font-size: 1rem;
+      letter-spacing: .02em;
+    }
+
+    .brand span {
+      display: block;
+      color: var(--muted-2);
+      font-size: .78rem;
+      margin-top: 2px;
+    }
+
+    .nav {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+
+    .nav a,
+    .print-btn {
+      border: 1px solid var(--line);
+      color: var(--muted);
+      padding: 10px 13px;
+      border-radius: 999px;
+      font-size: .84rem;
+      background: rgba(255, 255, 255, 0.04);
+      transition: .2s ease;
+      cursor: pointer;
+    }
+
+    .nav a:hover,
+    .print-btn:hover {
+      color: var(--text);
+      border-color: rgba(93, 216, 255, .55);
+      background: rgba(93, 216, 255, .1);
+      transform: translateY(-1px);
+    }
+
+    .hero {
+      max-width: var(--max);
+      margin: 0 auto;
+      padding: 84px 22px 48px;
+      display: grid;
+      grid-template-columns: 1.08fr .92fr;
+      gap: 38px;
+      align-items: center;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      color: var(--primary);
+      background: rgba(93, 216, 255, 0.1);
+      border: 1px solid rgba(93, 216, 255, 0.26);
+      padding: 9px 13px;
+      border-radius: 999px;
+      font-weight: 700;
+      font-size: .83rem;
+      margin-bottom: 22px;
+    }
+
+    .pulse {
+      width: 8px;
+      height: 8px;
+      background: var(--success);
+      border-radius: 50%;
+      box-shadow: 0 0 0 8px rgba(69, 230, 168, .12);
+    }
+
+    h1 {
+      font-size: clamp(2.65rem, 6vw, 5.1rem);
+      line-height: .92;
+      margin: 0 0 22px;
+      letter-spacing: -0.075em;
+    }
+
+    .gradient-text {
+      background: linear-gradient(135deg, #fff 5%, #bfefff 45%, #b9acff 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    .lead {
+      font-size: clamp(1.08rem, 1.8vw, 1.32rem);
+      color: var(--muted);
+      line-height: 1.65;
+      max-width: 760px;
+      margin: 0;
+    }
+
+    .hero-actions {
+      display: flex;
+      gap: 14px;
+      align-items: center;
+      flex-wrap: wrap;
+      margin-top: 34px;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 48px;
+      padding: 0 18px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,.16);
+      background: rgba(255,255,255,.07);
+      color: var(--text);
+      font-weight: 800;
+      transition: .2s ease;
+      box-shadow: 0 12px 30px rgba(0,0,0,.14);
+      cursor: pointer;
+    }
+
+    .btn.primary {
+      background: linear-gradient(135deg, var(--primary), var(--primary-2));
+      color: #06111f;
+      border: none;
+    }
+
+    .btn:hover {
+      transform: translateY(-2px);
+      filter: brightness(1.08);
+    }
+
+    .hero-card,
+    .glass,
+    .work-card,
+    .value-card,
+    .deliverable-card,
+    .price-card,
+    .comparison-wrap,
+    .cta-box {
+      border: 1px solid var(--line);
+      box-shadow: var(--shadow);
+    }
+
+    .hero-card {
+      border-radius: var(--radius);
+      background: linear-gradient(180deg, rgba(255,255,255,.11), rgba(255,255,255,.052));
+      padding: 24px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-card::before {
+      content: "";
+      position: absolute;
+      inset: -120px -120px auto auto;
+      width: 240px;
+      height: 240px;
+      background: radial-gradient(circle, rgba(93, 216, 255, .28), transparent 68%);
+      border-radius: 50%;
+    }
+
+    .status-title {
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      align-items: flex-start;
+      margin-bottom: 20px;
+      position: relative;
+    }
+
+    .status-title h2 {
+      margin: 0;
+      font-size: 1.25rem;
+      letter-spacing: -0.03em;
+    }
+
+    .tag {
+      color: #06111f;
+      background: var(--warning);
+      border-radius: 999px;
+      font-weight: 900;
+      font-size: .76rem;
+      padding: 7px 10px;
+      min-width: max-content;
+    }
+
+    .metric-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 14px;
+      position: relative;
+    }
+
+    .metric {
+      border: 1px solid var(--line);
+      border-radius: 20px;
+      padding: 16px;
+      background: rgba(255,255,255,.055);
+    }
+
+    .metric b {
+      display: block;
+      font-size: 1.6rem;
+      line-height: 1;
+      letter-spacing: -0.06em;
+      margin-bottom: 7px;
+    }
+
+    .metric span {
+      color: var(--muted-2);
+      font-size: .88rem;
+      line-height: 1.35;
+    }
+
+    .section {
+      max-width: var(--max);
+      margin: 0 auto;
+      padding: 52px 22px;
+    }
+
+    .section-header {
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 24px;
+      margin-bottom: 24px;
+    }
+
+    .section h2 {
+      font-size: clamp(2rem, 3.5vw, 3.25rem);
+      line-height: 1;
+      letter-spacing: -0.065em;
+      margin: 0;
+    }
+
+    .section p {
+      color: var(--muted);
+      line-height: 1.64;
+    }
+
+    .section-header p {
+      max-width: 540px;
+      margin: 0;
+    }
+
+    .glass {
+      border-radius: var(--radius);
+      background: rgba(255,255,255,.06);
+      overflow: hidden;
+    }
+
+    .mini-title {
+      color: var(--primary);
+      font-weight: 900;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      font-size: .76rem;
+      margin-bottom: 12px;
+    }
+
+    .content-card {
+      padding: 28px;
+      background: linear-gradient(180deg, rgba(255,255,255,.08), rgba(255,255,255,.035));
+    }
+
+    .content-card p {
+      margin: 0;
+      font-size: 1.02rem;
+    }
+
+    .work-grid,
+    .value-grid,
+    .deliverables {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+    }
+
+    .work-card,
+    .value-card,
+    .deliverable-card,
+    .price-card {
+      background: rgba(255,255,255,.057);
+      border-radius: 20px;
+      padding: 18px;
+      min-height: 150px;
+    }
+
+    .work-card h3,
+    .value-card h3,
+    .deliverable-card h3,
+    .price-card h3 {
+      margin: 0 0 10px;
+      letter-spacing: -0.03em;
+      font-size: 1.02rem;
+    }
+
+    .work-card p,
+    .value-card p,
+    .deliverable-card p,
+    .price-card p {
+      margin: 0;
+      font-size: .92rem;
+      color: var(--muted);
+    }
+
+    .icon,
+    .check {
+      width: 28px;
+      height: 28px;
+      border-radius: 9px;
+      display: grid;
+      place-items: center;
+      font-weight: 900;
+      font-size: .82rem;
+    }
+
+    .icon {
+      background: rgba(255,255,255,.08);
+      border: 1px solid var(--line);
+      color: var(--primary);
+      margin-bottom: 14px;
+    }
+
+    .check {
+      background: rgba(69,230,168,.11);
+      border: 1px solid rgba(69,230,168,.28);
+      color: var(--success);
+      font-weight: 1000;
+    }
+
+    .comparison-wrap {
+      overflow-x: auto;
+      border-radius: var(--radius);
+      background: rgba(255,255,255,.057);
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 840px;
+    }
+
+    th,
+    td {
+      padding: 17px 18px;
+      border-bottom: 1px solid var(--line);
+      text-align: left;
+      vertical-align: top;
+    }
+
+    th {
+      color: var(--text);
+      font-size: .87rem;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+      background: rgba(255,255,255,.065);
+    }
+
+    td {
+      color: var(--muted);
+      line-height: 1.45;
+    }
+
+    tr:last-child td {
+      border-bottom: none;
+    }
+
+    .price-panel {
+      display: grid;
+      grid-template-columns: 1fr .85fr;
+      gap: 16px;
+      align-items: stretch;
+    }
+
+    .price-card.featured {
+      border-color: rgba(69,230,168,.55);
+      background:
+        radial-gradient(circle at top right, rgba(69,230,168,.18), transparent 20rem),
+        linear-gradient(180deg, rgba(69,230,168,.12), rgba(255,255,255,.058));
+    }
+
+    .price {
+      display: flex;
+      align-items: baseline;
+      gap: 8px;
+      margin: 12px 0 16px;
+    }
+
+    .price strong {
+      font-size: clamp(2rem, 4vw, 3.1rem);
+      line-height: .9;
+      letter-spacing: -0.08em;
+    }
+
+    .list {
+      display: grid;
+      gap: 12px;
+      margin: 18px 0 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .list li {
+      display: grid;
+      grid-template-columns: 28px 1fr;
+      gap: 12px;
+      color: var(--muted);
+      line-height: 1.5;
+    }
+
+    .cta {
+      margin: 42px auto 80px;
+      max-width: var(--max);
+      padding: 0 22px;
+    }
+
+    .cta-box {
+      border-color: rgba(69,230,168,.35);
+      border-radius: 32px;
+      background:
+        radial-gradient(circle at top right, rgba(69,230,168,.18), transparent 28rem),
+        linear-gradient(135deg, rgba(93,216,255,.12), rgba(124,92,255,.1));
+      padding: clamp(28px, 5vw, 52px);
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 24px;
+      align-items: center;
+    }
+
+    .cta h2 {
+      margin: 0 0 12px;
+      font-size: clamp(2rem, 4vw, 3.3rem);
+      letter-spacing: -0.065em;
+      line-height: 1;
+    }
+
+    .cta p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.6;
+      max-width: 820px;
+    }
+
+    .footer {
+      max-width: var(--max);
+      margin: 0 auto;
+      padding: 24px 22px 42px;
+      color: var(--muted-2);
+      font-size: .88rem;
+      display: flex;
+      justify-content: space-between;
+      gap: 18px;
+      border-top: 1px solid var(--line);
+    }
+
+    .mobile-only {
+      display: none;
+    }
+
+    @media (max-width: 980px) {
+      .hero,
+      .price-panel,
+      .cta-box {
+        grid-template-columns: 1fr;
+      }
+
+      .work-grid,
+      .value-grid,
+      .deliverables {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .section-header {
+        display: block;
+      }
+
+      .section-header p {
+        margin-top: 14px;
+      }
+    }
+
+    @media (max-width: 720px) {
+      .topbar-inner {
+        align-items: flex-start;
+      }
+
+      .nav {
+        display: none;
+      }
+
+      .mobile-only {
+        display: inline-flex;
+      }
+
+      .hero {
+        padding-top: 48px;
+      }
+
+      .metric-grid,
+      .work-grid,
+      .value-grid,
+      .deliverables {
+        grid-template-columns: 1fr;
+      }
+
+      .footer {
+        flex-direction: column;
+      }
+    }
+
+    @media print {
+      body {
+        background: white;
+        color: #101828;
+      }
+
+      body::before,
+      .topbar,
+      .hero-actions,
+      .print-btn {
+        display: none !important;
+      }
+
+      .hero,
+      .section,
+      .cta,
+      .footer {
+        max-width: none;
+        padding-left: 0;
+        padding-right: 0;
+      }
+
+      .glass,
+      .work-card,
+      .value-card,
+      .deliverable-card,
+      .comparison-wrap,
+      .price-card,
+      .cta-box,
+      .hero-card {
+        box-shadow: none;
+        background: white;
+        border-color: #d0d5dd;
+        break-inside: avoid;
+      }
+
+      .gradient-text {
+        color: #101828;
+        background: none;
+      }
+
+      p,
+      td,
+      .lead,
+      .list li,
+      .metric span {
+        color: #344054;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a class="brand" href="index.html" aria-label="Voltar para proposta principal">
+        <div class="logo-mark">DS</div>
+        <div>
+          <strong>Devsider</strong>
+          <span>Detalhamento técnico do Projeto BarberBlack</span>
+        </div>
+      </a>
+
+      <nav class="nav" aria-label="Navegação principal">
+        <a href="index.html">Proposta principal</a>
+        <a href="#feito">O que foi feito</a>
+        <a href="#valor">Valor</a>
+        <a href="#entregaveis">Entregáveis</a>
+        <a href="index.html#propostas">Ver propostas</a>
+        <button class="print-btn" onclick="window.print()">Imprimir / PDF</button>
+      </nav>
+
+      <button class="print-btn mobile-only" onclick="window.print()">PDF</button>
+    </div>
+  </header>
+
+  <main id="inicio">
+    <section class="hero">
+      <div>
+        <div class="eyebrow"><span class="pulse"></span> Arquitetura, infraestrutura, gestão visual e UX de cadastro</div>
+        <h1><span class="gradient-text">Projeto BarberBlack</span></h1>
+        <p class="lead">
+          Detalhamento técnico do trabalho executado para entender o cenário do cliente, discutir arquitetura e infraestrutura, organizar o processo de entregas em board e simplificar o fluxo de cadastro para facilitar a entrada no aplicativo.
+        </p>
+
+        <div class="hero-actions">
+          <a class="btn primary" href="index.html">Voltar para proposta principal</a>
+          <a class="btn" href="index.html#propostas">Ver propostas</a>
+          <button class="btn" onclick="window.print()">Imprimir / PDF</button>
+        </div>
+      </div>
+
+      <aside class="hero-card" aria-label="Resumo do Projeto BarberBlack">
+        <div class="status-title">
+          <div>
+            <div class="mini-title">Escopo realizado</div>
+            <h2>Discovery técnico, organização de entregas e melhoria no fluxo de cadastro</h2>
+          </div>
+          <span class="tag">Produto</span>
+        </div>
+
+        <div class="metric-grid">
+          <div class="metric">
+            <b>Discovery</b>
+            <span>pesquisa e reunião para entendimento técnico do cenário do cliente</span>
+          </div>
+          <div class="metric">
+            <b>Arquitetura</b>
+            <span>discussão de arquitetura e infraestrutura necessária para o projeto</span>
+          </div>
+          <div class="metric">
+            <b>Board</b>
+            <span>controle visual das entregas para facilitar acompanhamento do processo</span>
+          </div>
+          <div class="metric">
+            <b>Cadastro</b>
+            <span>alteração do fluxo para simplificar a entrada no aplicativo</span>
+          </div>
+        </div>
+      </aside>
+    </section>
+
+    <section class="section" id="resumo">
+      <div class="section-header">
+        <h2>Resumo executivo</h2>
+        <p>
+          O Projeto BarberBlack combinou entendimento técnico, alinhamento com cliente, organização operacional e melhoria direta na experiência de entrada do usuário.
+        </p>
+      </div>
+
+      <div class="glass content-card">
+        <p>
+          A entrega não se limitou a uma alteração pontual de tela. O trabalho começou com pesquisa e reunião para compreender necessidades, arquitetura e infraestrutura. Em seguida, foi criado um board para controlar entregas e tornar o processo mais claro para todos os envolvidos. Por fim, o fluxo de cadastro foi alterado para reduzir atrito e facilitar a entrada dos usuários no aplicativo.
+        </p>
+      </div>
+    </section>
+
+    <section class="section" id="feito">
+      <div class="section-header">
+        <h2>O que foi feito</h2>
+        <p>
+          O escopo reuniu atividades de análise, arquitetura, organização do trabalho e implementação de melhoria de produto.
+        </p>
+      </div>
+
+      <div class="work-grid">
+        <article class="work-card">
+          <div class="icon">01</div>
+          <h3>Pesquisa do contexto</h3>
+          <p>Levantamento do cenário do projeto, dores do cliente, fluxo atual e pontos que precisavam de clareza.</p>
+        </article>
+        <article class="work-card">
+          <div class="icon">02</div>
+          <h3>Reunião com cliente</h3>
+          <p>Alinhamento para entender necessidades, prioridades, restrições e expectativas sobre o aplicativo.</p>
+        </article>
+        <article class="work-card">
+          <div class="icon">03</div>
+          <h3>Discussão de arquitetura</h3>
+          <p>Avaliação do caminho técnico mais adequado para sustentar o fluxo e a evolução do produto.</p>
+        </article>
+        <article class="work-card">
+          <div class="icon">04</div>
+          <h3>Discussão de infraestrutura</h3>
+          <p>Entendimento das dependências, ambiente e estrutura necessária para manter o aplicativo funcionando.</p>
+        </article>
+        <article class="work-card">
+          <div class="icon">05</div>
+          <h3>Criação de board</h3>
+          <p>Organização visual das entregas para facilitar acompanhamento, entendimento e priorização.</p>
+        </article>
+        <article class="work-card">
+          <div class="icon">06</div>
+          <h3>Controle de processo</h3>
+          <p>Separação das etapas do trabalho para que os demais envolvidos entendessem o que seria realizado.</p>
+        </article>
+        <article class="work-card">
+          <div class="icon">07</div>
+          <h3>Análise do cadastro</h3>
+          <p>Identificação dos pontos de atrito que dificultavam a entrada do usuário no aplicativo.</p>
+        </article>
+        <article class="work-card">
+          <div class="icon">08</div>
+          <h3>Alteração do fluxo</h3>
+          <p>Simplificação do cadastro para tornar a entrada mais objetiva e reduzir abandono inicial.</p>
+        </article>
+        <article class="work-card">
+          <div class="icon">09</div>
+          <h3>Ajustes finais</h3>
+          <p>Refinamento do fluxo e organização do material para dar continuidade ao processo com mais clareza.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="section" id="valor">
+      <div class="section-header">
+        <h2>Por que esse trabalho tem valor</h2>
+        <p>
+          O valor está na combinação entre pensamento técnico, organização de processo e melhoria prática em uma etapa crítica do aplicativo.
+        </p>
+      </div>
+
+      <div class="value-grid">
+        <article class="value-card">
+          <h3>Entendimento do negócio</h3>
+          <p>Antes de alterar o produto, foi necessário entender o objetivo do cliente e o impacto do fluxo.</p>
+        </article>
+        <article class="value-card">
+          <h3>Arquitetura e infraestrutura</h3>
+          <p>Discutir base técnica evita decisões frágeis e cria mais previsibilidade para a evolução do projeto.</p>
+        </article>
+        <article class="value-card">
+          <h3>Gestão visual</h3>
+          <p>O board dá clareza sobre etapas, responsabilidades e andamento das entregas.</p>
+        </article>
+        <article class="value-card">
+          <h3>UX de cadastro</h3>
+          <p>Simplificar a entrada no aplicativo reduz atrito e melhora a chance de conversão do usuário.</p>
+        </article>
+        <article class="value-card">
+          <h3>Comunicação com o cliente</h3>
+          <p>Reunião e alinhamento reduzem ruído e ajudam os envolvidos a entenderem o processo.</p>
+        </article>
+        <article class="value-card">
+          <h3>Entrega orientada a produto</h3>
+          <p>A alteração foi conectada ao objetivo de facilitar uso, não apenas modificar código.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="section" id="comparativo">
+      <div class="section-header">
+        <h2>Comparativo de esforço</h2>
+        <p>
+          O esforço foi distribuído entre diagnóstico, arquitetura, infraestrutura, organização de trabalho e implementação do fluxo.
+        </p>
+      </div>
+
+      <div class="comparison-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Item</th>
+              <th>Complexidade</th>
+              <th>Observação</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Pesquisa e entendimento</td>
+              <td>Média</td>
+              <td>Compreender cenário, objetivo do cliente e pontos críticos do aplicativo.</td>
+            </tr>
+            <tr>
+              <td>Reunião com cliente</td>
+              <td>Média</td>
+              <td>Alinhar necessidades, arquitetura, infraestrutura e próximos passos.</td>
+            </tr>
+            <tr>
+              <td>Discussão de arquitetura</td>
+              <td>Média/Alta</td>
+              <td>Avaliar caminho técnico e impactos na evolução do produto.</td>
+            </tr>
+            <tr>
+              <td>Discussão de infraestrutura</td>
+              <td>Média/Alta</td>
+              <td>Entender ambiente, dependências e requisitos para funcionamento.</td>
+            </tr>
+            <tr>
+              <td>Criação do board</td>
+              <td>Média</td>
+              <td>Organizar entregas, etapas e visibilidade para os envolvidos.</td>
+            </tr>
+            <tr>
+              <td>Controle de processo</td>
+              <td>Média</td>
+              <td>Facilitar entendimento dos demais sobre o trabalho a ser realizado.</td>
+            </tr>
+            <tr>
+              <td>Alteração no cadastro</td>
+              <td>Média/Alta</td>
+              <td>Simplificar entrada no aplicativo sem comprometer dados e funcionamento.</td>
+            </tr>
+            <tr>
+              <td>Ajustes finais</td>
+              <td>Média</td>
+              <td>Refinar fluxo e garantir que a mudança ficasse clara e utilizável.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="section" id="estimativa">
+      <div class="section-header">
+        <h2>Estimativa de valor de mercado</h2>
+        <p>
+          Esse tipo de serviço costuma considerar horas de análise, reunião, arquitetura, organização operacional e implementação de melhoria de produto.
+        </p>
+      </div>
+
+      <div class="price-panel">
+        <article class="price-card">
+          <h3>Critérios considerados</h3>
+          <ul class="list">
+            <li><span class="check">✓</span><span>Pesquisa técnica e entendimento do cenário do cliente.</span></li>
+            <li><span class="check">✓</span><span>Discussão de arquitetura e infraestrutura.</span></li>
+            <li><span class="check">✓</span><span>Criação de board para controle das entregas.</span></li>
+            <li><span class="check">✓</span><span>Organização do processo para os demais envolvidos.</span></li>
+            <li><span class="check">✓</span><span>Alteração no fluxo de cadastro para simplificar entrada no app.</span></li>
+          </ul>
+        </article>
+
+        <article class="price-card featured">
+          <h3>Valor recomendado</h3>
+          <p>Faixa de mercado recomendada:</p>
+          <div class="price"><strong>R$ 4.000 a R$ 6.500</strong></div>
+          <p>Valor sugerido para cobrança:</p>
+          <div class="price"><strong>R$ 5.000</strong></div>
+          <p>
+            R$ 5.000 é um valor equilibrado porque cobre a etapa de entendimento técnico, alinhamento com cliente, organização do processo e implementação da melhoria no cadastro, sem cobrar como se fosse o desenvolvimento completo de um aplicativo do zero.
+          </p>
+        </article>
+      </div>
+    </section>
+
+    <section class="section" id="entregaveis">
+      <div class="section-header">
+        <h2>Entregáveis</h2>
+        <p>
+          A entrega final reúne clareza técnica, organização operacional e uma melhoria concreta no fluxo de entrada do aplicativo.
+        </p>
+      </div>
+
+      <div class="deliverables">
+        <article class="deliverable-card">
+          <h3>Pesquisa realizada</h3>
+          <p>Entendimento do contexto, necessidades e pontos de atenção do projeto.</p>
+        </article>
+        <article class="deliverable-card">
+          <h3>Reunião com cliente</h3>
+          <p>Alinhamento de arquitetura, infraestrutura, prioridades e caminho de execução.</p>
+        </article>
+        <article class="deliverable-card">
+          <h3>Direção técnica definida</h3>
+          <p>Base de entendimento para orientar as próximas decisões do projeto.</p>
+        </article>
+        <article class="deliverable-card">
+          <h3>Board de entregas</h3>
+          <p>Controle visual do processo e das etapas necessárias para execução.</p>
+        </article>
+        <article class="deliverable-card">
+          <h3>Processo mais claro</h3>
+          <p>Organização para facilitar entendimento dos demais envolvidos.</p>
+        </article>
+        <article class="deliverable-card">
+          <h3>Cadastro simplificado</h3>
+          <p>Fluxo ajustado para facilitar a entrada do usuário no aplicativo.</p>
+        </article>
+        <article class="deliverable-card">
+          <h3>Ajustes finais</h3>
+          <p>Refinamentos necessários para deixar a melhoria pronta para uso.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="cta" id="recomendacao">
+      <div class="cta-box">
+        <div>
+          <h2>Recomendação comercial</h2>
+          <p>
+            Para fins comerciais, o valor de R$ 5.000 é justificável por representar uma entrega que combina análise, alinhamento com cliente, discussão de arquitetura e infraestrutura, organização de entregas e melhoria direta no fluxo de cadastro. Não se trata apenas de uma alteração simples, mas de um trabalho para dar clareza ao processo e reduzir atrito na entrada do aplicativo.
+          </p>
+        </div>
+        <a class="btn primary" href="index.html#propostas">Ver propostas</a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <span>Projeto BarberBlack | Devsider</span>
+    <span>Arquitetura, infraestrutura, board de entregas e simplificação de cadastro</span>
+  </footer>
+</body>
+</html>
